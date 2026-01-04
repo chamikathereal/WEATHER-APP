@@ -1,5 +1,5 @@
 import React from 'react';
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, Routes } from 'react-router';
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, } from 'react-router';
 import Home from './pages/Home';
 import City from './pages/City';
 // // import logo from './logo.svg';
@@ -12,13 +12,13 @@ const App: React.FC = () => {
     createRoutesFromElements(
       <Route path='/'>
         <Route index element={<Home />} />,
-        <Route path="city/:id" element={<City />} />
+        <Route path="city" element={<City />} />
       </Route>
     )
   )
 
   return (
-    <div className="App">
+    <div className="bg-home-bg bg-cover h-[100vh] overflow-y-scroll text-white font-poppins">
       <RouterProvider router={router} />
     </div>
 

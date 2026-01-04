@@ -1,11 +1,13 @@
 export interface weatherData {
     name: string;
     id: number;
+    visibility: number;
     main: {
         feels_like: number;
         humidity: number;
         temp: number;
         sea_level: number;
+        pressure: number;
     };
     coord: {
         lat: number;
@@ -23,6 +25,20 @@ export interface weatherData {
         description: string;
         icon: string;
     }];
+}
+
+export interface ForecastData {
+    list: Array<{
+        dt: number;
+        main: {
+            temp: number;
+        };
+        weather: Array<{
+            description: string;
+            icon: string;
+        }>;
+        dt_txt: string;
+    }>;
 }
 
 export const apiKey = process.env.REACT_APP_WEATHER_API_KEY || '';
@@ -45,5 +61,13 @@ export const fetchWeatherByName = async (name: string): Promise<weatherData> => 
         `https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=${apiKey}&units=metric`
     );
     if (!response.ok) throw new Error(`City "${name}" not found`);
+    return response.json();
+};
+
+export const fetchForecastByCoords = async (lat: number, lon: number): Promise<ForecastData> => {
+    const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
+    );
+    if (!response.ok) throw new Error("Forecast failed");
     return response.json();
 };

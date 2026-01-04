@@ -1,4 +1,6 @@
-.App {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;.App {
   text-align: center;
 }
 
@@ -35,4 +37,20 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Add to your App.css */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.swiper-pagination-bullet {
+  background: rgba(255, 255, 255, 0.5) !important;
+}
+.swiper-pagination-bullet-active {
+  background: #4ade80 !important; /* Matches your green buttons */
 }
