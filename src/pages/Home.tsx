@@ -1,24 +1,26 @@
-import React, { useState, useEffect } from 'react'; // UPDATED: Added useEffect
+import React, { useState, useEffect } from 'react';
 import { useQueries, useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 import { weatherData, fetchWeatherById, fetchWeatherByName } from '../extra/Api';
 import CityCard from '../components/CityCard';
+import SkeletonCard from '../components/SkeletonCard';
+// UPDATED: Import the new Footer component
+import Footer from '../components/Footer';
+import { Search } from 'lucide-react';
 
-const cityIds = (process.env.REACT_APP_CITY_LIST || '1248991,1850147,5128581').split(',').map(id => parseInt(id));
+const cityIds = (process.env.REACT_APP_CITY_LIST || '1248991,1850147,5128581,2643743,2968815,2172797,1816670').split(',').map(id => parseInt(id));
 
 const Home: React.FC = () => {
-    const [searchTarget, setSearchTarget] = useState(''); // What the user types
-    const [cityName, setCityName] = useState('');         // What we actually search for
+    const [searchTarget, setSearchTarget] = useState('');
+    const [cityName, setCityName] = useState('');
     const navigate = useNavigate();
 
-    // UPDATED: Added useEffect to clear search result when input is deleted
     useEffect(() => {
         if (searchTarget.trim() === '') {
             setCityName('');
         }
     }, [searchTarget]);
 
-    // 1. Fetch Default Cities (Static List)
     const weatherResults = useQueries({
         queries: cityIds.map((id) => ({
             queryKey: ['weather', id],
@@ -26,105 +28,127 @@ const Home: React.FC = () => {
         })),
     });
 
-    // 2. Fetch Search City (Dynamic from API)
     const { data: searchData, isFetching: isSearching, error: searchError } = useQuery({
         queryKey: ['searchCity', cityName],
         queryFn: () => fetchWeatherByName(cityName),
-        enabled: !!cityName, // Only runs when cityName is set
+        enabled: !!cityName,
         retry: false,
     });
 
-    const isLoading = weatherResults.some((result) => result.isLoading);
+    const isLoadingDefaults = weatherResults.some((result) => result.isLoading);
 
-    // const handleCityClick = (city: weatherData) => {
-    //     navigate(`/city?${city.coord.lon}&lat=${city.coord.lat}&id=${city.id}`, { state: { city } });
-    // }
-    // Inside Home.tsx
     const handleCityClick = (city: weatherData) => {
-        // Corrected the lon= part in the URL
         navigate(`/city?lon=${city.coord.lon}&lat=${city.coord.lat}&id=${city.id}`, { state: { city } });
     }
 
     const handleSearch = () => {
         if (searchTarget.trim()) {
-            setCityName(searchTarget); // This triggers the useQuery above
+            setCityName(searchTarget);
         }
     }
 
-    if (isLoading) return <h2>Loading Weather Data...</h2>;
+    const today = new Date().toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long' });
 
     return (
-        /* 1. Use flex and items-center on the main wrapper to ensure horizontal centering */
-        <div className="w-full min-h-screen flex flex-col items-center px-4 pb-20">
-
-            {/* Search Bar: centered with mx-auto */}
-            <div className='flex w-full max-w-[400px] mx-auto rounded-full overflow-hidden mt-[100px] mb-10 bg-white/20 backdrop-blur-md border border-white/30'>
-                <input
-                    type="text"
-                    placeholder="Search city..."
-                    value={searchTarget}
-                    onChange={(e) => setSearchTarget(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                    className="bg-transparent text-white w-full px-6 py-2 outline-none placeholder:text-white/50"
-                />
-                <button onClick={handleSearch} className='bg-green-500 px-5 cursor-pointer hover:bg-green-600 transition-colors'>
-                    <img src="/images/search.png" alt="search" className="w-5 h-5" />
-                </button>
+        <div className="w-full min-h-screen flex flex-col items-center px-6 pb-6 pt-10 font-poppins text-white">
+            
+            {/* --- 1. Header Section --- */}
+            <div className="text-center mb-10 space-y-2 animate-fade-in-down">
+                <span className="text-sm font-medium opacity-60 tracking-widest uppercase">{today}</span>
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tight">Weather Forecast</h1>
             </div>
 
-            {/* Loading Overlay */}
-            {(isLoading || isSearching) &&
-                <div className="fixed inset-0 z-50 backdrop-blur-md flex items-center justify-center">
-                    <p className="text-2xl font-semibold text-white">Loading...</p>
+            {/* --- 2. Search Bar --- */}
+            <div className="relative w-full max-w-md group z-10 mb-14 animate-fade-in">
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-500"></div>
+                
+                <div className='relative flex w-full bg-black/30 backdrop-blur-xl border border-white/10 rounded-full overflow-hidden shadow-2xl transition-all group-hover:border-white/20'>
+                    <input
+                        type="text"
+                        placeholder="Search for a city..."
+                        value={searchTarget}
+                        onChange={(e) => setSearchTarget(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                        className="bg-transparent text-white w-full pl-6 pr-4 py-4 outline-none placeholder:text-white/40 text-sm font-medium"
+                    />
+                    <button 
+                        onClick={handleSearch} 
+                        className='bg-white/10 hover:bg-white/20 text-white px-6 transition-colors flex items-center justify-center border-l border-white/10'
+                    >
+                        <Search size={20} />
+                    </button>
                 </div>
-            }
-
-            {/* Error Message Space */}
-            <div className="h-10 flex items-center justify-center">
+                
                 {(searchError && cityName) && (
-                    <p className="text-[#EF5350] font-medium">Something went wrong. Please check the city name!</p>
+                    <div className="absolute top-full left-0 w-full text-center mt-3 animate-fade-in">
+                        <span className="text-red-400 text-sm bg-red-400/10 px-3 py-1 rounded-full border border-red-400/20">
+                            City not found. Please try again.
+                        </span>
+                    </div>
                 )}
             </div>
 
-            {/* 2. THE GRID: Updated for centering and 5 columns */}
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 w-full max-w-[1400px] justify-items-center justify-center'>
-
-                {/* Search Result */}
-                {searchData && cityName && (
-                    <div className="col-span-full w-full flex flex-col items-center mb-10">
-                        {/* Wrap the title in a container to align it with the left side of the card */}
-                        <div className="w-full max-w-[280px]">
-                            <h3 className="text-white opacity-70 mb-4 text-left">Search Result:</h3>
+            {/* --- 3. Main Content (Grid) --- */}
+            <div className='w-full max-w-[1260px] flex-1 mb-20'>
+                
+                {/* A. Search Result */}
+                {isSearching ? (
+                    <div className="flex flex-col items-center mb-16 animate-pulse">
+                        <p className="mb-4 text-sm opacity-50">Searching...</p>
+                        <SkeletonCard />
+                    </div>
+                ) : (
+                    searchData && cityName && !searchError && (
+                        <div className="flex flex-col items-center mb-16 animate-fade-in-up">
+                            <div className="flex items-center gap-4 w-full max-w-[280px] mb-4">
+                                <span className="h-px bg-white/20 flex-1"></span>
+                                <span className="text-xs font-bold uppercase tracking-widest opacity-50">Search Result</span>
+                                <span className="h-px bg-white/20 flex-1"></span>
+                            </div>
+                            <div className="w-full max-w-[280px]">
+                                <CityCard
+                                    city={searchData}
+                                    onClick={() => handleCityClick(searchData)}
+                                    bgClass="bg-gradient-to-br from-indigo-500/80 to-purple-600/80 border-indigo-200/50 shadow-indigo-500/20 shadow-2xl"
+                                />
+                            </div>
                         </div>
+                    )
+                )}
 
-                        <CityCard
-                            city={searchData}
-                            onClick={() => handleCityClick(searchData)}
-                            bgClass="bg-card-bg-1"
-                        />
-
-                        {/* This divider should also match the max-width for symmetry */}
-                        <div className="w-full max-w-[280px] h-[1px] bg-white/20 mt-10"></div>
+                {/* B. Popular Cities Header */}
+                {!searchData && (
+                    <div className="flex items-center gap-4 mb-8 opacity-40 animate-fade-in" style={{ animationDelay: '200ms' }}>
+                        <span className="text-xs font-bold uppercase tracking-widest">Popular Cities</span>
+                        <div className="h-px bg-white flex-1"></div>
                     </div>
                 )}
 
-                {/* Default List Display */}
-                {weatherResults.map((result, index) => {
-                    if (result.status === 'success') {
-                        const city = result.data;
-                        return (
-                            <CityCard
-                                key={city.id}
-                                city={city}
-                                onClick={() => handleCityClick(city)}
-                                // Apply the gradient to the first one, glass to others
-                                bgClass={index === 0 ? "bg-card-bg-1" : ""}
-                            />
-                        );
+                {/* C. Cities List */}
+                <div className='flex flex-wrap justify-center gap-8'>
+                    {isLoadingDefaults 
+                        ? Array(4).fill(0).map((_, i) => <SkeletonCard key={i} />)
+                        : weatherResults.map((result, index) => {
+                            if (result.status === 'success') {
+                                return (
+                                    <div key={result.data.id} className="w-full max-w-[280px]">
+                                        <CityCard
+                                            city={result.data}
+                                            index={index}
+                                            onClick={() => handleCityClick(result.data)}
+                                        />
+                                    </div>
+                                );
+                            }
+                            return null;
+                        })
                     }
-                    return <div key={index} className="text-red-400">Error</div>;
-                })}
+                </div>
             </div>
+
+            {/* --- 4. Render Footer Component --- */}
+            <Footer />
+
         </div>
     );
 }
