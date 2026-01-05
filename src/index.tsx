@@ -21,7 +21,6 @@ root.render(
         <App />
         <SpeedInsights />
         <Analytics />
-        
       </HelmetProvider>
     </QueryClientProvider>
   </React.StrictMode>
