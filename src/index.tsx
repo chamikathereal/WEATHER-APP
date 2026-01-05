@@ -4,8 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-// 1. Import HelmetProvider
 import { HelmetProvider } from 'react-helmet-async';
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 const queryClient = new QueryClient();
 
@@ -16,9 +16,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      {/* 2. Wrap your App with HelmetProvider */}
       <HelmetProvider>
         <App />
+        <SpeedInsights />
       </HelmetProvider>
     </QueryClientProvider>
   </React.StrictMode>
