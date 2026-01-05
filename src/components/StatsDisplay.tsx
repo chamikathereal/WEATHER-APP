@@ -18,7 +18,7 @@ const StatsDisplay: React.FC<StatsDisplayProps> = ({ stats }) => {
                 spaceBetween={12}
                 slidesPerView={2}
                 pagination={{ clickable: true }}
-                className="pb-10 px-2"
+                className="px-2 pb-10"
                 breakpoints={{
                     640: { slidesPerView: 3 },
                     1024: { slidesPerView: 4 }

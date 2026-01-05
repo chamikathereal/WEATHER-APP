@@ -17,7 +17,7 @@ const ExtendedForecast: React.FC<ExtendedForecastProps> = ({ dailyForecast, acti
         <div className="bg-black/20 backdrop-blur-2xl rounded-[32px] p-6 border border-white/10 shadow-xl min-w-0">
             <div className="flex items-center gap-2 mb-4 opacity-50">
                 <Calendar size={16} />
-                <h2 className="font-bold uppercase text-xs tracking-wider">Extended Forecast</h2>
+                <h2 className="text-xs font-bold tracking-wider uppercase">Extended Forecast</h2>
             </div>
             
             <Swiper
@@ -26,7 +26,7 @@ const ExtendedForecast: React.FC<ExtendedForecastProps> = ({ dailyForecast, acti
                 pagination={{ clickable: true }}
                 spaceBetween={12}
                 slidesPerView={2}
-                className="w-full pb-8 px-2"
+                className="w-full px-2 pb-8"
                 breakpoints={{
                     480: { slidesPerView: 3 },
                     768: { slidesPerView: 4 },
@@ -48,12 +48,12 @@ const ExtendedForecast: React.FC<ExtendedForecastProps> = ({ dailyForecast, acti
                                 className={`
                                     flex flex-col items-center justify-center p-4 rounded-2xl border transition-all duration-300 cursor-pointer h-full
                                     ${isDaySelected 
-                                        ? "bg-white/20 border-white/30 shadow-[0_0_20px_rgba(255,255,255,0.1)] scale-105" 
+                                        ? "bg-blue-500/20 border-blue-400/50 shadow-[0_0_10px_rgba(96,165,250,0.3)] scale-105" 
                                         : "bg-white/5 border-white/5 hover:bg-white/10"
                                     }
                                 `}
                             >
-                                <span className="text-xs font-bold opacity-70 mb-2 uppercase tracking-wide">
+                                <span className="mb-2 text-xs font-bold tracking-wide uppercase opacity-70">
                                     {dayLabel}
                                 </span>
                                 <img src={`https://openweathermap.org/img/wn/${day.weather[0].icon}.png`} alt="icon" className="w-12 h-12 mb-1" />

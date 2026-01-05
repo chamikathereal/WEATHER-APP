@@ -48,9 +48,18 @@
     scrollbar-width: none;  /* Firefox */
 }
 
+/* App.css */
+
 .swiper-pagination-bullet {
   background: rgba(255, 255, 255, 0.5) !important;
+  opacity: 1 !important;
 }
+
 .swiper-pagination-bullet-active {
-  background: #4ade80 !important; /* Matches your green buttons */
+  background: #4ade80 !important; /* Green active dot */
+}
+
+/* Add this line to fix the position globally */
+.swiper-pagination {
+  bottom: 0px !important;
 }

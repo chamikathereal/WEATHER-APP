@@ -5,20 +5,6 @@ import { Clock } from 'lucide-react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-// Define custom styles for the pagination dots
-const paginationStyles = `
-  .swiper-pagination-bullet {
-    background: rgba(255, 255, 255, 0.5) !important;
-    opacity: 1 !important;
-  }
-  .swiper-pagination-bullet-active {
-    background: #ffffff !important;
-  }
-  .swiper-pagination {
-    bottom: 0px !important;
-  }
-`;
-
 interface HourlyForecastProps {
     data: any[];
     selectedForecast: any;
@@ -29,13 +15,13 @@ interface HourlyForecastProps {
 
 const HourlyForecast: React.FC<HourlyForecastProps> = ({ data, selectedForecast, onHourSelect, activeDate, isToday }) => {
     return (
-        // Updated container style for premium glass effect
         <div className="md:col-span-2 bg-black/20 backdrop-blur-2xl rounded-[32px] p-6 border border-white/10 flex flex-col min-w-0 justify-center relative shadow-xl">
-            <style>{paginationStyles}</style>
+            
+            {/* Removed <style> block here because it's now in App.css */}
 
-            <div className="flex items-center gap-2 mb-2 opacity-50 px-2">
+            <div className="flex items-center gap-2 px-2 mb-2 opacity-50">
                 <Clock size={14} />
-                <h2 className="text-xs font-bold uppercase tracking-wider">
+                <h2 className="text-xs font-bold tracking-wider uppercase">
                     {isToday ? "Hourly Forecast (Next 24h)" : `Hourly Forecast (${new Date(activeDate).toLocaleDateString(undefined, { weekday: 'short' })})`}
                 </h2>
             </div>
@@ -44,7 +30,7 @@ const HourlyForecast: React.FC<HourlyForecastProps> = ({ data, selectedForecast,
                 <Swiper
                     modules={[FreeMode, Pagination]}
                     freeMode={true}
-                    pagination={{ clickable: true, dynamicBullets: true }}
+                    pagination={{ clickable: true, dynamicBullets: false }}
                     spaceBetween={12}
                     slidesPerView={4}
                     className="w-full py-2 pb-8" 
@@ -61,9 +47,9 @@ const HourlyForecast: React.FC<HourlyForecastProps> = ({ data, selectedForecast,
                                 <div 
                                     onClick={() => onHourSelect(hour)}
                                     className={`
-                                        flex flex-col items-center p-3 rounded-2xl border transition-all duration-300 cursor-pointer w-full
+                                        flex flex-col items-center p-3 ml-3 rounded-2xl border transition-all duration-300 cursor-pointer w-full
                                         ${isSelected 
-                                            ? "bg-white/20 border-white/30 shadow-[0_0_20px_rgba(255,255,255,0.1)] scale-105" 
+                                            ? "bg-blue-500/20 border-blue-400/50 shadow-[0_0_8px_rgba(96,165,250,0.3)] scale-105" 
                                             : "bg-white/5 border-white/5 hover:bg-white/10"
                                         }
                                     `}
@@ -79,7 +65,7 @@ const HourlyForecast: React.FC<HourlyForecastProps> = ({ data, selectedForecast,
                     })}
                 </Swiper>
             ) : (
-                <div className="h-full flex items-center justify-center opacity-50 text-sm">
+                <div className="flex items-center justify-center h-full text-sm opacity-50">
                     No hourly data available
                 </div>
             )}
