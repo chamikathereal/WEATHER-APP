@@ -34,7 +34,7 @@ const MainWeatherCard: React.FC<MainWeatherCardProps> = ({ displayData, isToday,
                         loading="lazy"
                     />
                 </div>
-                <span className="font-bold leading-none tracking-tighter text-transparent text-7xl bg-gradient-to-b from-white to-white/70 bg-clip-text drop-shadow-lg">
+                <span className="pr-2 font-bold leading-none tracking-tighter text-transparent text-7xl bg-gradient-to-b from-white to-white/70 bg-clip-text drop-shadow-lg">
                     {Math.round(displayData.temp)}°
                 </span>
                 <p className="flex items-center gap-2 mt-3 text-lg font-medium tracking-wide capitalize opacity-80">

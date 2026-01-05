@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
                     </div>
                     <div className="flex flex-col text-left">
                         <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest mb-0.5">Developed By</span>
-                        <a href='https://chamikathereal.com' target="_blank" rel="noreferrer" className="text-lg font-bold leading-none tracking-wide text-white cursor-pointer hover:underline">Chamika Gayashan</a>
+                        <a href='https://share.google/hlCNL6uhjAYXnSzTN' target="_blank" rel="noreferrer" className="text-lg font-bold leading-none tracking-wide text-white cursor-pointer hover:underline">Chamika Gayashan</a>
                         <span className="mt-1 text-xs font-medium text-white/40">Software Engineer</span>
                     </div>
                 </div>

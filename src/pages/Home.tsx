@@ -10,7 +10,8 @@ import Footer from '../components/Footer';
 import SearchBar from '../components/SearchBar';
 
 // Default cities to fall back on if LocalStorage is empty
-const DEFAULT_CITY_IDS = (process.env.REACT_APP_CITY_LIST || '1248991,1850147,5128581,2643743,2968815,2172797,1816670').split(',').map(id => parseInt(id));
+// Colombo, Tokyo, New York, London
+const DEFAULT_CITY_IDS = (process.env.REACT_APP_CITY_LIST || '').split(',').map(id => parseInt(id));
 
 const Home: React.FC = () => {
     const [searchTarget, setSearchTarget] = useState('');

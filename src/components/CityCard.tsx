@@ -52,7 +52,7 @@ const CityCard: React.FC<CityCardProps> = ({ city, onClick, bgClass, index = 0 }
 
             {/* 2. Hero Temperature */}
             <div className="z-10 flex flex-col items-start mb-6">
-                <span className="text-6xl font-bold tracking-tighter text-transparent drop-shadow-xl bg-gradient-to-b from-white to-white/70 bg-clip-text">
+                <span className="pr-2 text-6xl font-bold tracking-tighter text-transparent drop-shadow-xl bg-gradient-to-b from-white to-white/70 bg-clip-text">
                     {Math.round(city.main.temp)}°
                 </span>
                 <span className="flex items-center gap-2 pl-1 text-sm font-semibold capitalize opacity-90">
