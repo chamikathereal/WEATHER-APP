@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { HelmetProvider } from 'react-helmet-async';
 import { SpeedInsights } from "@vercel/speed-insights/react"
+import { Analytics } from "@vercel/analytics/react"
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,8 @@ root.render(
       <HelmetProvider>
         <App />
         <SpeedInsights />
+        <Analytics />
+        
       </HelmetProvider>
     </QueryClientProvider>
   </React.StrictMode>
