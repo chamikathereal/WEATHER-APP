@@ -1,4 +1,9 @@
-export interface weatherData {
+// src/extra/Api.ts
+
+const apiKey = process.env.REACT_APP_WEATHER_API_KEY || '';
+
+// Renamed to PascalCase for standard React/TS convention
+export interface WeatherData {
     name: string;
     id: number;
     visibility: number;
@@ -41,11 +46,7 @@ export interface ForecastData {
     }>;
 }
 
-export const apiKey = process.env.REACT_APP_WEATHER_API_KEY || '';
-// export const cityIds = (process.env.REACT_APP_CITY_LIST || '').split(',').map(id => parseInt(id));
-
-// Helper function for fetching
-export const fetchWeatherById = async (id: number): Promise<weatherData> => {
+export const fetchWeatherById = async (id: number): Promise<WeatherData> => {
     const response = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?id=${id}&appid=${apiKey}&units=metric`
     );
@@ -55,8 +56,7 @@ export const fetchWeatherById = async (id: number): Promise<weatherData> => {
     return response.json();
 };
 
-// Add this to your api.ts
-export const fetchWeatherByName = async (name: string): Promise<weatherData> => {
+export const fetchWeatherByName = async (name: string): Promise<WeatherData> => {
     const response = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=${apiKey}&units=metric`
     );

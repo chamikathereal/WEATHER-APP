@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
-
 import 'swiper/css';
 import 'swiper/css/pagination';
 import StatCard from './StatCard';
@@ -34,4 +33,4 @@ const StatsDisplay: React.FC<StatsDisplayProps> = ({ stats }) => {
     );
 };
 
-export default StatsDisplay;
+export default memo(StatsDisplay);

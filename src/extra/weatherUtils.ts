@@ -1,5 +1,6 @@
+// src/extra/weatherUtils.ts
+
 export const getWeatherGradient = (weatherMain: string) => {
-    // Ensure weatherMain is valid
     const condition = weatherMain ? weatherMain.toLowerCase() : 'default';
 
     switch (condition) {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useNavigate } from 'react-router';
 import { ArrowLeft } from 'lucide-react';
 
@@ -14,8 +14,12 @@ const CityHeader: React.FC<CityHeaderProps> = ({ cityName, country, selectedFore
     const navigate = useNavigate();
 
     return (
-        <div className="w-full flex items-center mb-2">
-            <button onClick={() => navigate('/')} className="p-2 bg-white/10 rounded-full mr-4 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all">
+        <div className="flex items-center w-full mb-2">
+            <button 
+                onClick={() => navigate('/')} 
+                className="p-2 mr-4 transition-all border rounded-full bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20"
+                aria-label="Back to Home"
+            >
                 <ArrowLeft size={18} />
             </button>
             <div className="flex flex-col">
@@ -33,4 +37,4 @@ const CityHeader: React.FC<CityHeaderProps> = ({ cityName, country, selectedFore
     );
 };
 
-export default CityHeader;
+export default memo(CityHeader);
